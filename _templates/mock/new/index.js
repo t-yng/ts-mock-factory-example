@@ -25,11 +25,28 @@ const createMockData = (file, interface) => {
 
   return `{
     ${keyValues.join(",\n")}
-  }`;
+  };`;
 };
 
-const getFileName = (filePath) => {
-  return path.basename(filePath, ".ts");
+const createMocks = (file, interfaces) => {
+  const mocks = {};
+  for (const interface of interfaces) {
+    const mock = createMockData(file, interface);
+    mocks[interface] = mock;
+  }
+
+  return mocks;
+};
+
+const getOutputFileName = (filePath) => {
+  return path.basename(filePath);
+};
+
+const getInputFilePath = (filePath) => {
+  return filePath
+    .replace("./src", "")
+    .replace(/^\/(.*)/, "$1")
+    .replace(/(.*)\.ts$/, "$1");
 };
 
 module.exports = {
@@ -52,8 +69,9 @@ module.exports = {
     return {
       file,
       interfaces,
-      getFileName,
-      createMockData,
+      inputFilePath: getInputFilePath(file),
+      outputFileName: getOutputFileName(file),
+      mocks: createMocks(file, interfaces),
     };
   },
 };

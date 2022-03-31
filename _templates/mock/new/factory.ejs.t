@@ -1,16 +1,16 @@
 ---
-to: test/helpers/mock/<%= getFileName(file) %>.ts
+to: test/helpers/mock/<%= outputFileName %>
 ---
 <%_
   const importedInterfaces = interfaces.map(interface => h.capitalize(interface)).join(', ')
 _%>
-import { <%= importedInterfaces  %> } from '@/models/<%= getFileName(file) %>';
+import { <%= importedInterfaces  %> } from '@/<%= inputFilePath %>';
 
 <%_ for(let i=0; i<interfaces.length; i++) { _%>
 <%_
   const interface = interfaces[i];
   const Interface = h.capitalize(interface);
-  const mockData = createMockData(file, interface);
+  const mockData = mocks[interface];
 _%>
 export const create<%= Interface %> = (<%= interface %>?: Partial<<%= Interface %>>): <%= Interface %> => {
   const default<%= Interface %>: <%= Interface %> = <%- mockData %>
@@ -18,9 +18,6 @@ export const create<%= Interface %> = (<%= interface %>?: Partial<<%= Interface 
   return {
     ...default<%= Interface %>,
     ...<%= interface %>,
-  }
-}
+  };
+};
 <%_ } _%>
-
-
-
