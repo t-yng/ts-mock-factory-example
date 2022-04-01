@@ -43,3 +43,6 @@ export const createUser = (User?: Partial<User>): User => {
   }
 }
 ```
+
+## Presentation
+[型からモックデータ生成コードを自動生成する](https://speakerdeck.com/tyng/xing-karamotukudetasheng-cheng-kodowozi-dong-sheng-cheng-suru)
